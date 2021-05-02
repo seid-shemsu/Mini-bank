@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
+import javax.sql.DataSource;
 
 /**
  *
@@ -213,5 +215,88 @@ public class CustomerImplementation extends UnicastRemoteObject implements Custo
         return "";
     }
 
+    @Override
+    public String balacne(String phone) throws RemoteException {
+        //To change body of generated methods, choose Tools | Templates.
+        try {
+            int balance = 0;
+            String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+            String DB_URL = "jdbc:mysql://localhost:3306/customers";
+            String USER = "root";
+            String PASS = "";
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("connection to selected database");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("connected database successfully");
+            System.out.println("creating statement");
+            String sql = "select balance from customer where phone = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, phone);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                balance = rs.getInt("balance");
+            }
+            return Integer.toString(balance);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @Override
+    public void update(String name, String phone, String password) throws RemoteException {
+        try {
+            String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+            String DB_URL = "jdbc:mysql://localhost:3306/customers";
+            String USER = "root";
+            String PASS = "";
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("connection to selected database");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("connected database successfully");
+            System.out.println("creating statement");
+
+            String sql = "update customer set name=?, password=? where phone=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setString(2, password);
+            stmt.setString(3, phone);
+            long i = stmt.executeUpdate();
+            System.out.print(i + "");
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int delete(String phone) throws RemoteException {
+        int i = 0;
+        try {
+            String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+            String DB_URL = "jdbc:mysql://localhost:3306/customers";
+            String USER = "root";
+            String PASS = "";
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("connection to selected database");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("connected database successfully");
+            System.out.println("creating statement");
+            String sql = "DELETE FROM customer WHERE phone=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, phone);
+            i = stmt.executeUpdate();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
 
 }

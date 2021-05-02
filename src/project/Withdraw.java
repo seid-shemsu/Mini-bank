@@ -106,7 +106,7 @@ public class Withdraw extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "insufficient balance");
                 }
                 else{
-                    JOptionPane.showMessageDialog(rootPane, amount + " birr withdrawed successfully");
+                    JOptionPane.showMessageDialog(rootPane, amount + " ETB withdrawed successfully");
                     jTextField1.setText("");
                 }
             }

@@ -124,13 +124,17 @@ public class Transfer extends javax.swing.JFrame {
             int amount = Integer.parseInt(jTextField2.getText());
             if (amount <= 0) {
                 JOptionPane.showMessageDialog(rootPane, "enter positive number");
-            } else {
+            } 
+            else if (receiver.equals(phone)) {
+                JOptionPane.showMessageDialog(rootPane, "sorry, you cannot transfer to yourself");
+            }
+            else {
                 CustomerRemote remote = (CustomerRemote) Naming.lookup("rmi://localhost:1099/bank");
                 String result = remote.transfer(phone, receiver, amount);
                 if (result.startsWith("error")) {
                     JOptionPane.showMessageDialog(rootPane, result.substring(result.indexOf(" ")));
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, amount + " birr transfered successfully");
+                    JOptionPane.showMessageDialog(rootPane, amount + " ETB transfered successfully");
                     jTextField1.setText("");
                     jTextField2.setText("");
                 }

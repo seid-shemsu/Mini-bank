@@ -113,7 +113,7 @@ public class Deposite extends javax.swing.JFrame {
             } else {
                 CustomerRemote remote = (CustomerRemote) Naming.lookup("rmi://localhost:1099/bank");
                 remote.deposite(phone, deposite);
-                JOptionPane.showMessageDialog(rootPane, deposite + " deposited successfully");
+                JOptionPane.showMessageDialog(rootPane, deposite + " ETB deposited successfully");
                 jTextField1.setText("");
             }
 

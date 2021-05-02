@@ -6,6 +6,7 @@
 package project;
 
 import java.rmi.Naming;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -136,12 +137,24 @@ public class GUI extends javax.swing.JFrame {
         String password = jTextField3.getText();
         String name = jTextField2.getText();
         try {
-            CustomerRemote remote = (CustomerRemote) Naming.lookup("rmi://localhost:1099/bank");
-            remote.register(new Customer(phone, name, password, 0));
-            //Welcome w = new Welcome();
-            Welcome.main(new String[]{phone});
-            //w.setVisible(true);
-            dispose();
+            if (phone.length() > 9 && password.length() > 2 && name.length() > 3) {
+                CustomerRemote remote = (CustomerRemote) Naming.lookup("rmi://localhost:1099/bank");
+                remote.register(new Customer(phone, name, password, 0));
+                Welcome.main(new String[]{phone});
+                dispose();
+            }
+            else{
+                if (phone.length() <= 9) {
+                    JOptionPane.showMessageDialog(rootPane, "phone must be 10 digit");
+                }
+                else if (password.length() <= 2) {
+                    JOptionPane.showMessageDialog(rootPane, "password must be greater than 2 character");
+                }
+                else if (name.length() <= 3) {
+                    JOptionPane.showMessageDialog(rootPane, "name must be greater than 3 character");
+                }
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

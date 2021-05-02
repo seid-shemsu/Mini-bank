@@ -18,4 +18,7 @@ public interface CustomerRemote extends Remote{
     public String deposite(String phone, int amount) throws RemoteException;
     public String withdraw(String phone, int amount) throws RemoteException;
     public String transfer(String phone, String receiver, int amount) throws RemoteException;
+    public String balacne(String phone) throws RemoteException;
+    public void update(String name, String phone, String password) throws RemoteException;
+    public int delete(String phone) throws RemoteException;
 }
